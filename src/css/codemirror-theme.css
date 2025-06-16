@@ -1,0 +1,202 @@
+/* CodeMirror customization for glassmorphism theme */
+.CodeMirror {
+    background: transparent !important;
+    color: #e2e8f0 !important;
+    font-family: 'JetBrains Mono', 'Monaco', 'Menlo', 'Ubuntu Mono', monospace !important;
+    font-size: 14px !important;
+    line-height: 24px !important;
+    height: 100% !important;
+    border: none !important;
+    padding: 0 32px 32px 0 !important;
+}
+
+/* Read-only styling */
+.CodeMirror.CodeMirror-readonly {
+    background: rgba(0, 0, 0, 0.1) !important;
+    opacity: 0.9;
+}
+
+.CodeMirror-lines {
+    padding: 0 !important;
+}
+
+.CodeMirror pre {
+    line-height: 24px !important;
+    padding: 0 !important;
+}
+
+.CodeMirror-focused .CodeMirror-selected {
+    background: rgba(99, 102, 241, 0.2) !important;
+}
+
+.CodeMirror-selected {
+    background: rgba(99, 102, 241, 0.1) !important;
+}
+
+.CodeMirror-cursor {
+    border-left: 2px solid #6366f1 !important;
+}
+
+/* Hide custom line numbers div */
+#line-numbers {
+    display: none !important;
+}
+
+/* Style built-in CodeMirror line numbers */
+.CodeMirror-linenumber {
+    color: rgba(255, 255, 255, 0.4) !important;
+    font-size: 12px !important;
+    line-height: 24px !important;
+    padding-right: 8px !important;
+    padding-left: 4px !important;
+    text-align: right !important;
+    user-select: none !important;
+    cursor: default !important;
+    min-width: 30px !important;
+}
+
+.CodeMirror-gutters {
+    background: rgba(0, 0, 0, 0.2) !important;
+    border-right: 1px solid rgba(255, 255, 255, 0.1) !important;
+    padding-left: 8px !important;
+    padding-right: 0.5em !important;
+}
+
+.CodeMirror-gutter {
+    background: transparent !important;
+}
+
+
+.CodeMirror-activeline-background {
+    background: rgba(255, 255, 255, 0.05) !important;
+}
+
+/* YAML syntax highlighting colors for dark glassmorphism theme */
+.cm-property {
+    color: #60a5fa !important; /* Blue for properties */
+}
+
+.cm-string {
+    color: #34d399 !important; /* Green for strings */
+}
+
+.cm-number {
+    color: #fbbf24 !important; /* Yellow for numbers */
+}
+
+.cm-comment {
+    color: rgba(255, 255, 255, 0.5) !important; /* Muted for comments */
+    font-style: italic;
+}
+
+.cm-atom {
+    color: #f472b6 !important; /* Pink for booleans/null */
+}
+
+
+/* Folded code indicator */
+.CodeMirror-foldmarker {
+    background: rgba(99, 102, 241, 0.2);
+    border: 1px solid rgba(99, 102, 241, 0.4);
+    color: rgba(255, 255, 255, 0.8);
+    border-radius: 4px;
+    padding: 0 4px;
+    margin: 0 2px;
+    font-size: 11px;
+    cursor: pointer;
+}
+
+.CodeMirror-foldmarker:hover {
+    background: rgba(99, 102, 241, 0.3);
+}
+
+/* Style for inline fold arrows */
+.cm-fold-arrow {
+    color: rgba(99, 102, 241, 0.8) !important;
+    cursor: pointer !important;
+    padding: 2px !important;
+    border-radius: 2px !important;
+    background: rgba(99, 102, 241, 0.1) !important;
+    margin-left: 4px !important;
+}
+
+.cm-fold-arrow:hover {
+    background: rgba(99, 102, 241, 0.2) !important;
+    transform: scale(1.1) !important;
+}
+
+/* Hover cursor for lines with arrows */
+.CodeMirror-line:has-text("▼"),
+.CodeMirror-line:has-text("▶") {
+    cursor: pointer;
+}
+
+.cm-keyword {
+    color: #a78bfa !important; /* Purple for keywords */
+}
+
+.cm-variable {
+    color: #e2e8f0 !important; /* Light gray for variables */
+}
+
+.cm-def {
+    color: #60a5fa !important; /* Blue for definitions */
+}
+
+.cm-bracket {
+    color: rgba(255, 255, 255, 0.8) !important; /* Light for brackets */
+}
+
+.cm-tag {
+    color: #f87171 !important; /* Red for tags */
+}
+
+.cm-link {
+    color: #60a5fa !important; /* Blue for links */
+}
+
+.cm-error {
+    background: rgba(239, 68, 68, 0.2) !important;
+    color: #fca5a5 !important;
+}
+
+/* Scrollbar for CodeMirror */
+.CodeMirror-scrollbar-filler {
+    background: transparent !important;
+}
+
+.CodeMirror-vscrollbar::-webkit-scrollbar {
+    width: 8px;
+}
+
+.CodeMirror-vscrollbar::-webkit-scrollbar-track {
+    background: rgba(148, 163, 184, 0.1);
+    border-radius: 4px;
+}
+
+.CodeMirror-vscrollbar::-webkit-scrollbar-thumb {
+    background: linear-gradient(135deg, #6366f1, #8b5cf6);
+    border-radius: 4px;
+}
+
+.CodeMirror-vscrollbar::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(135deg, #4f46e5, #7c3aed);
+}
+
+.CodeMirror-hscrollbar::-webkit-scrollbar {
+    height: 8px;
+}
+
+.CodeMirror-hscrollbar::-webkit-scrollbar-track {
+    background: rgba(148, 163, 184, 0.1);
+    border-radius: 4px;
+}
+
+.CodeMirror-hscrollbar::-webkit-scrollbar-thumb {
+    background: linear-gradient(135deg, #6366f1, #8b5cf6);
+    border-radius: 4px;
+}
+
+.CodeMirror-hscrollbar::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(135deg, #4f46e5, #7c3aed);
+}

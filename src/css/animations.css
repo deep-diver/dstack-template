@@ -1,0 +1,68 @@
+/* Animations and effects */
+
+/* Modern entrance animation */
+@keyframes slideInUp {
+    from {
+        opacity: 0;
+        transform: translateY(12px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.fieldset-enter {
+    animation: slideInUp 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Legend hover animation */
+.legend-hover {
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@keyframes shimmer {
+    0% { left: -100%; }
+    100% { left: 100%; }
+}
+
+/* Subtle floating animation */
+@keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-4px); }
+}
+
+.float {
+    animation: float 8s ease-in-out infinite;
+}
+
+/* Modern gradient text */
+.gradient-text {
+    background: linear-gradient(135deg, #3b82f6, #6366f1, #8b5cf6);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+/* Modern minimal card hover effects */
+.card {
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+}
+
+.card:hover {
+    transform: translateY(-4px) scale(1.01);
+    box-shadow: 
+        0 8px 32px rgba(15, 23, 42, 0.12),
+        0 4px 16px rgba(30, 41, 59, 0.1);
+}
+
+.card:hover .glass {
+    background: rgba(248, 250, 252, 0.1);
+    border-color: rgba(148, 163, 184, 0.25);
+}
+
+.card:hover .glass-dark {
+    background: rgba(15, 23, 42, 0.6);
+    border-color: rgba(148, 163, 184, 0.2);
+}
