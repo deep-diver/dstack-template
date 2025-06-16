@@ -2,6 +2,15 @@
 
 // Helper function to dispatch YAML content change event
 const dispatchYamlContentChanged = () => {
+    // Clear template selection when content is manually changed
+    if (window.app && window.app.selectedTemplate) {
+        console.log('Clearing template selection due to content change');
+        window.app.selectedTemplate = null;
+        if (window.app.updateTemplateHighlight) {
+            window.app.updateTemplateHighlight(null);
+        }
+    }
+    
     const event = new CustomEvent('yamlContentChanged', {
         detail: {
             content: window.app?.yamlEditor?.getValue() || '',

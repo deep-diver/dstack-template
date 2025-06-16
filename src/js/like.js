@@ -14,8 +14,15 @@ class YAMLLiker {
 
     initEventListeners() {
         const likeBtn = document.getElementById('like-yaml-btn');
+        console.log('🔍 LIKE DEBUG - initEventListeners called, likeBtn found:', !!likeBtn);
         if (likeBtn) {
-            likeBtn.addEventListener('click', () => this.handleLike());
+            console.log('🔍 LIKE DEBUG - Adding click listener to like button');
+            likeBtn.addEventListener('click', (e) => {
+                console.log('🔍 LIKE DEBUG - Like button clicked!', e);
+                this.handleLike();
+            });
+        } else {
+            console.log('🔍 LIKE DEBUG - Like button not found in DOM');
         }
 
         // Listen for YAML content changes to update like state
@@ -36,35 +43,55 @@ class YAMLLiker {
 
         // Listen for community template loading to track template ID
         document.addEventListener('communityTemplateLoaded', (event) => {
-            console.log('Community template loaded for likes:', event.detail);
+            console.log('🔍 LIKE DEBUG - Community template loaded event:', event.detail);
             this.currentTemplateId = event.detail.id;
+            console.log('🔍 LIKE DEBUG - Set currentTemplateId to:', this.currentTemplateId);
             // Reload like state for the community template
             this.loadLikeStateForTemplate(event.detail.id);
         });
     }
 
     async handleLike() {
+        console.log('🔍 LIKE DEBUG - handleLike called');
+        console.log('🔍 LIKE DEBUG - Current state:', {
+            isAuthenticated: window.githubAuth && window.githubAuth.isAuthenticated(),
+            selectedTemplate: window.app && window.app.selectedTemplate,
+            currentTemplateId: this.currentTemplateId,
+            hasYAML: !!this.getCurrentYAML()
+        });
+
         // Check if user is authenticated
         if (!window.githubAuth || !window.githubAuth.isAuthenticated()) {
+            console.log('🔍 LIKE DEBUG - User not authenticated');
             this.showNotification('Please login with GitHub to like configurations', 'info');
+            return;
+        }
+
+        // Check if this is a built-in template (has selectedTemplate but no currentTemplateId)
+        if (window.app && window.app.selectedTemplate && !this.currentTemplateId) {
+            console.log('🔍 LIKE DEBUG - Built-in template detected:', window.app.selectedTemplate);
+            this.showNotification('Official dstack.ai templates cannot be liked. Try modifying the configuration or load a community template.', 'info');
             return;
         }
 
         const currentYAML = this.getCurrentYAML();
         if (!currentYAML || currentYAML.trim() === '') {
+            console.log('🔍 LIKE DEBUG - No YAML content');
             this.showNotification('No YAML content to like', 'warning');
             return;
         }
 
         // Check if this is a community template
         if (this.currentTemplateId) {
-            console.log('Handling like for community template:', this.currentTemplateId);
+            console.log('🔍 LIKE DEBUG - Handling like for community template:', this.currentTemplateId);
             await this.handleCommunityTemplateLike();
         } else {
-            console.log('Handling like for user-generated content');
+            console.log('🔍 LIKE DEBUG - Handling like for user-generated content');
             // Handle localStorage-based likes for user-generated content
             const configHash = this.generateConfigHash(currentYAML);
             const isLiked = this.isConfigLiked(configHash);
+
+            console.log('🔍 LIKE DEBUG - Hash:', configHash, 'isLiked:', isLiked);
 
             if (isLiked) {
                 this.unlikeConfig(configHash);
@@ -145,6 +172,15 @@ class YAMLLiker {
     }
 
     updateLikeState() {
+        // Check if this is a built-in template (has selectedTemplate but no currentTemplateId)
+        if (window.app && window.app.selectedTemplate && !this.currentTemplateId) {
+            console.log('Built-in template selected:', window.app.selectedTemplate);
+            // For built-in templates, hide the like button
+            this.currentConfigHash = null;
+            this.updateLikeButtonState();
+            return;
+        }
+
         const currentYAML = this.getCurrentYAML();
         if (currentYAML && currentYAML.trim() !== '') {
             this.currentConfigHash = this.generateConfigHash(currentYAML);
@@ -194,15 +230,28 @@ class YAMLLiker {
         const likeBtn = document.getElementById('like-yaml-btn');
         if (!likeBtn) return;
 
+        // Check if this is a built-in template
+        const isBuiltInTemplate = window.app && window.app.selectedTemplate && !this.currentTemplateId;
         const isAuthenticated = window.githubAuth && window.githubAuth.isAuthenticated();
         
-        if (isAuthenticated) {
-            // Enable like button
+        console.log('🔍 LIKE DEBUG - updateLikeButtonState called, isAuthenticated:', isAuthenticated, 'isBuiltInTemplate:', isBuiltInTemplate);
+        
+        if (isBuiltInTemplate) {
+            // Hide like button for built-in templates
+            console.log('🔍 LIKE DEBUG - Hiding like button for built-in template');
+            likeBtn.style.display = 'none';
+        } else if (isAuthenticated) {
+            // Show and enable like button
+            console.log('🔍 LIKE DEBUG - Showing and enabling like button');
+            likeBtn.style.display = 'flex';
             likeBtn.disabled = false;
             likeBtn.style.opacity = '1';
             likeBtn.style.cursor = 'pointer';
+            likeBtn.title = 'Like this configuration';
         } else {
-            // Disable like button
+            // Show but disable like button
+            console.log('🔍 LIKE DEBUG - Showing but disabling like button - user not authenticated');
+            likeBtn.style.display = 'flex';
             likeBtn.disabled = true;
             likeBtn.style.opacity = '0.5';
             likeBtn.style.cursor = 'not-allowed';
@@ -358,8 +407,13 @@ class YAMLLiker {
 
     // Clear community template tracking (called when loading built-in templates)
     clearCommunityTemplateTracking() {
-        console.log('Clearing community template tracking');
+        console.log('🔍 LIKE DEBUG - clearCommunityTemplateTracking called');
+        console.log('🔍 LIKE DEBUG - Previous currentTemplateId:', this.currentTemplateId);
         this.currentTemplateId = null;
+        console.log('🔍 LIKE DEBUG - currentTemplateId cleared');
+        
+        // Update the like state to hide the button for built-in templates
+        this.updateLikeState();
     }
 
     // Dispatch event when like count changes to update other UI components
@@ -498,7 +552,9 @@ class YAMLLiker {
 
 // Initialize when DOM is ready
 document.addEventListener('DOMContentLoaded', () => {
+    console.log('🔍 LIKE DEBUG - DOMContentLoaded - Creating YAMLLiker instance');
     window.yamlLiker = new YAMLLiker();
+    console.log('🔍 LIKE DEBUG - YAMLLiker instance created:', !!window.yamlLiker);
 });
 
 // Export for use in other modules

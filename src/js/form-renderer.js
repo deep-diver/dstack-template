@@ -232,9 +232,6 @@ const createInputField = (key, value, path) => {
         inputHtml = `
             <div class="relative">
                 <textarea data-path="${path}" id="${id}" class="${inputClasses} pl-4 min-h-[2.5rem] resize-y auto-resize" placeholder="${placeholder}" rows="${rows}">${value}</textarea>
-                ${fieldIcon ? `<div class="absolute top-3 left-0 pl-3 flex items-center pointer-events-none text-white/60">
-                    ${fieldIcon}
-                </div>` : ''}
             </div>`;
     }
 
